@@ -33,7 +33,6 @@
 	        	console.log('찜 버튼 클릭 확인');
 	        	
 	        	if (favorResult == 0){
-	            	// 
 	                $.ajax({
 	                   url: 'insertFavor.do?teaNum='+${ teaData.teaNum },
 	                   type: 'POST',
@@ -218,8 +217,8 @@
     				<p>${ teaData.teaContent }</p>
     					<div class="tag-widget post-tag-container mb-5 mt-5">
 							<div class="tagcloud">
-								<c:forEach var="hashtag" items="${ teaHashtags }">
-									<a href="#" class="tag-cloud-link"># ${ hashtag.teaHashtagContent }</a>
+								<c:forEach var="teaHashtag" items="${ teaHashtags }">
+									<a href="teaListPage.do?teaHashtagContent=${ teaHashtag.teaHashtagContent }" class="tag-cloud-link"># ${ teaHashtag.teaHashtagContent }</a>
 								</c:forEach>
 							</div>
 						</div>

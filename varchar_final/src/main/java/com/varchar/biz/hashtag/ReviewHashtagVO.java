@@ -1,5 +1,8 @@
 package com.varchar.biz.hashtag;
 
+import java.sql.Date;
+import java.util.List;
+
 public class ReviewHashtagVO {
 	private int reviewHashtagNum;
 	private String reviewHashtagContent;
@@ -7,8 +10,16 @@ public class ReviewHashtagVO {
 	// 임시 변수
 	private int itemNum;
 	private String hashTagSearchCondition;
+	private int reviewNum;
+	private int buySerial;
+	private String memberName;
+	private String reviewContent;
+	private Date reviewInsertTime;
+	private String imageUrl;
 	private int hashtagNum;
 	private int usageCount;
+	
+	List<ReviewHashtagVO> tagCloud;
 
 	public ReviewHashtagVO() {
 		this(0,"");
@@ -18,29 +29,53 @@ public class ReviewHashtagVO {
 		this.reviewHashtagContent = reviewHashtagContent;
 	}
 	
-	public int getItemNum() {
-		return itemNum;
+	public String getImageUrl() {
+		return imageUrl;
 	}
-	public void setItemNum(int itemNum) {
-		this.itemNum = itemNum;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
-	public int getHashtagNum() {
-		return hashtagNum;
+	public int getReviewNum() {
+		return reviewNum;
 	}
-	public void setHashtagNum(int hashtagNum) {
-		this.hashtagNum = hashtagNum;
+	public void setReviewNum(int reviewNum) {
+		this.reviewNum = reviewNum;
 	}
-	public int getUsageCount() {
-		return usageCount;
+	public int getBuySerial() {
+		return buySerial;
 	}
-	public void setUsageCount(int usageCount) {
-		this.usageCount = usageCount;
+	public void setBuySerial(int buySerial) {
+		this.buySerial = buySerial;
+	}
+	public String getMemberName() {
+		return memberName;
+	}
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+	public String getReviewContent() {
+		return reviewContent;
+	}
+	public void setReviewContent(String reviewContent) {
+		this.reviewContent = reviewContent;
+	}
+	public Date getReviewInsertTime() {
+		return reviewInsertTime;
+	}
+	public void setReviewInsertTime(Date reviewInsertTime) {
+		this.reviewInsertTime = reviewInsertTime;
 	}
 	public String getHashTagSearchCondition() {
 		return hashTagSearchCondition;
 	}
 	public void setHashTagSearchCondition(String hashTagSearchCondition) {
 		this.hashTagSearchCondition = hashTagSearchCondition;
+	}
+	public int getItemNum() {
+		return itemNum;
+	}
+	public void setItemNum(int itemNum) {
+		this.itemNum = itemNum;
 	}
 	public int getReviewHashtagNum() {
 		return reviewHashtagNum;
@@ -57,13 +92,24 @@ public class ReviewHashtagVO {
 	public void setReviewHashtagContent(String reviewHashtagContent) {
 		this.reviewHashtagContent = reviewHashtagContent;
 	}
-	
+	public int getHashtagNum() {
+		return hashtagNum;
+	}
+	public void setHashtagNum(int hashtagNum) {
+		this.hashtagNum = hashtagNum;
+	}
+	public int getUsageCount() {
+		return usageCount;
+	}
+	public void setUsageCount(int usageCount) {
+		this.usageCount = usageCount;
+	}
 	@Override
 	public String toString() {
 		return "ReviewHashtagVO [reviewHashtagNum=" + reviewHashtagNum + ", reviewHashtagContent="
 				+ reviewHashtagContent + ", itemNum=" + itemNum + ", hashTagSearchCondition=" + hashTagSearchCondition
-				+ ", hashtagNum=" + hashtagNum + ", usageCount=" + usageCount + "]";
+				+ ", reviewNum=" + reviewNum + ", buySerial=" + buySerial + ", memberName=" + memberName
+				+ ", reviewContent=" + reviewContent + ", reviewInsertTime=" + reviewInsertTime + ", imageUrl="
+				+ imageUrl + ", hashtagNum=" + hashtagNum + ", usageCount=" + usageCount + "]";
 	}
-	
-	
 }

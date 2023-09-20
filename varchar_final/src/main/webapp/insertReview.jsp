@@ -14,6 +14,11 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/38.1.0/classic/ckeditor.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<script type="module">
+    import * as LR from "https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.25.0/web/lr-file-uploader-regular.min.js";
+
+    LR.registerBlocks(LR);
+</script>
 <style>
 	/* 에디터 최소 높이 */
 	.ck-editor__editable {
@@ -66,6 +71,37 @@
 	.tagcloud a {
 		font-size: 18px;
 	}
+	.my-config {
+	  --darkmode: 0;
+	  --h-accent: 223;
+	  --s-accent: 100%;
+	  --l-accent: 61%;
+	}
+	lr-file-uploader-minimal {
+		width: 100%;
+	}
+	.cart-list {
+		margin-bottom: 30px;
+	}
+	.edit_align_center_f {
+		flex: 0 0 20%;
+    	max-width: 20%;
+		display: flex;
+		align-items: center;
+	}
+	.product {
+        position: relative;
+    }
+    .icon-cancel {
+        position: absolute;
+        top: 5px; /* 위쪽 여백 조절 */
+        right: 5px; /* 오른쪽 여백 조절 */
+        background-color: transparent;
+        border: none;
+        color: red;
+        font-size: 20px;
+        cursor: pointer;
+    }
 </style>
 </head>
 <body class="goto-here">
@@ -83,7 +119,7 @@
 			</div>
 		</div>
 	</div>
-	<form action="insertReview.do" method="post">
+	<form id="insertReviewForm" action="insertReview.do" method="post">
 		<section class="ftco-section ftco-degree-bg">
 			<div class="container">
 				<div class="cart-list">
@@ -116,8 +152,44 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="row" id="reviewImagesThumbnail">
+				
+<!-- 					<div class="col-md-6 col-lg-3 edit_align_center_f">
+						<div class="product">
+							<img class="img-fluid" src="https://ucarecdn.com/d8e4a07d-0a51-4337-8e24-5f56614e2bfa/" alt="Colorlib Template">
+							<span class="icon-cancel" onclick="removeProduct(this)"></span>
+							<div class="overlay">
+							</div>
+						</div>
+					</div> -->
+					
+				</div>
 				<div class="row">
 					<input type="hidden" name="buySerial" value="${ buyDetailData.buySerial }">
+					<div id="reviewImages">
+						
+					</div>
+					<lr-config
+					    ctx-name="my-uploader"
+					    pubkey="86c01c87f383d8c2191c"
+					    max-local-file-size-bytes="10000000"
+					    multiple-max="10"
+					    img-only="true"
+					></lr-config>
+					<lr-file-uploader-minimal
+					    css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.25.0/web/lr-file-uploader-minimal.min.css"
+					    ctx-name="my-uploader"
+					    class="my-config"
+					>
+					</lr-file-uploader-minimal>
+					<lr-data-output
+					  ctx-name="my-uploader"
+					  use-console
+					  use-input
+					  use-template
+					  use-group
+					  use-event
+					></lr-data-output>
 					<textarea id="editor" name="reviewContent" placeholder="150자 이내로 작성해주세요" maxlength="200">
 					</textarea>
 					<!-- CKEditor -->
@@ -126,6 +198,54 @@
 				        	language: "ko",
 				        }).catch((error) => {
 				        	console.error(error);
+				        });
+			        </script>
+			        <script>
+			        	const reviewImagesContainer = document.getElementById("reviewImages");
+						const reviewImagesThumbnailContainer = document.getElementById("reviewImagesThumbnail");
+						const dataOutput = document.querySelector('lr-data-output');
+				        
+						let imageCount = 0;
+						
+						window.addEventListener('LR_REMOVE', (event) => {
+							console.log(event.detail);
+							console.log(imageCount);
+							if (imageCount == 1) {
+								reviewImagesContainer.replaceChildren();
+					        	reviewImagesThumbnailContainer.replaceChildren();
+					        	let imageCount = 0;
+							}
+						});
+						
+						window.addEventListener('lr-data-output', (event) => {
+				        	reviewImagesContainer.replaceChildren();
+				        	reviewImagesThumbnailContainer.replaceChildren();
+				        	for (var i = 0; i < event.detail.data.files.length; i++) {
+					        	console.log(event.detail.data.files[i].cdnUrl);
+					        	
+				        		const reviewImage = document.createElement("input");
+				        		reviewImage.type = "hidden";
+				        		reviewImage.value = event.detail.data.files[i].cdnUrl;
+				        		reviewImage.setAttribute("name", "reviewImage");
+				        		reviewImagesContainer.appendChild(reviewImage);
+				        		
+				        		const thumbnailDiv = document.createElement('div');
+				        		thumbnailDiv.className = 'col-md-6 col-lg-3 edit_align_center_f';
+				        		const productDiv = document.createElement('div');
+				        		productDiv.className = 'product';
+				        		const imgElement = document.createElement('img');
+				        		imgElement.className = 'img-fluid';
+				        		imgElement.src = event.detail.data.files[i].cdnUrl;
+				        		imgElement.alt = 'Colorlib Template';
+				        		const overlayDiv = document.createElement('div');
+				        		overlayDiv.className = 'overlay';
+
+				        		productDiv.appendChild(imgElement);
+				        		productDiv.appendChild(overlayDiv);
+				        		thumbnailDiv.appendChild(productDiv);
+				        		reviewImagesThumbnailContainer.appendChild(thumbnailDiv);
+				        	}
+				        	imageCount = event.detail.data.files.length;
 				        });
 			        </script>
 					<input type="text" class="form-control" id="hashtags-input" placeholder="해시태그를 입력해주세요.">
@@ -188,10 +308,17 @@
 		            	});
 		            </script>
 				</div>
-			<input type="submit" class="btn btn-primary py-3 px-4" value="후기작성">
+			<input id="submitBtn" type="submit" class="btn btn-primary py-3 px-4" value="후기작성">
 			</div>
 		</section>
 	</form>
+	<!-- <script>
+		$("#submitBtn").on("click", function() {
+			if ($("#editor").val() != "") {
+				
+			}
+		});
+	</script> -->
 	<!-- .section -->
 
 	<footer class="ftco-footer ftco-section bg-light">

@@ -59,7 +59,7 @@ public class BuyDAO {
 	public BuyVO selectOne(BuyVO buyVO) {
 		try {
 			Object[] args = { buyVO.getBuyNum() };
-			return jdbcTemplate.queryForObject(SQL_SELECTONE, args, new BuySelectOneRowMapper());
+			return jdbcTemplate.queryForObject(SQL_SELECTONE, args, new BuyRowMapper());
 		}
 		catch (EmptyResultDataAccessException e) {
 			return null;
@@ -84,8 +84,8 @@ public class BuyDAO {
 	}
 }
 
-//SQL_SELECTALL
-class BuyRowMapper implements RowMapper<BuyVO> {
+// [ SelectAll, SelectOne ]
+class BuyRowMapper implements RowMapper<BuyVO> { 
 
 	@Override
 	public BuyVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -97,21 +97,6 @@ class BuyRowMapper implements RowMapper<BuyVO> {
 		data.setBuyName(rs.getString("BUY_NAME"));
 		data.setImageUrl(rs.getString("IMAGE_URL"));
 		return data;
-	} 
-	
-}
-
-//SQL_SELECTONE
-class BuySelectOneRowMapper implements RowMapper<BuyVO> {
-
-	@Override
-	public BuyVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-		BuyVO data = new BuyVO();
-		data.setBuyNum(rs.getInt("BUY_NUM"));
-		data.setTeaPrice(rs.getInt("TEA_PRICE"));
-		data.setBuyCnt(rs.getInt("BUY_CNT"));
-		return data;
 	}
-	
-}
 
+}

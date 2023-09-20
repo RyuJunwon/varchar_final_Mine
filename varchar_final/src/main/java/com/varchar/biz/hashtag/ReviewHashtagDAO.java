@@ -74,7 +74,7 @@ public class ReviewHashtagDAO {
 
 //----------------------------------------------------------------------------------------------------
 
-// SQL_SELECTALL, SQL_SELECTONE
+// selectAll
 class ReviewHashtagSelect implements RowMapper<ReviewHashtagVO> {
 
 	@Override
@@ -98,7 +98,7 @@ class ReviewHashtagRank implements RowMapper<ReviewHashtagVO> {
 		data.setHashtagNum(rs.getInt("HASHTAG_NUM"));
 		data.setUsageCount(rs.getInt("USAGE_COUNT"));
 		data.setReviewHashtagContent(rs.getString("REVIEW_HASHTAG_CONTENT"));
-		return null;
+		return data;
 	}
 	
 }

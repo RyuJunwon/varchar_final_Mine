@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="try"%>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -56,13 +55,7 @@
                       </a>
                       <div class="text d-block pl-md-4">
                         <div class="meta mb-3">
-                          <div>
-                          <a href="#">
-                          	<fmt:setLocale value="en" /> 
-                         	 <fmt:setBundle basename="bundle.message" var="reviewData" />
-                         	 <fmt:message key="username" bundle="${ reviewData.reviewInsertTime }" />
-                          </a>
-                          </div>
+                          <div><a href="#"><fmt:formatDate value="${ reviewData.reviewInsertTime }"/></a></div>
                           <div><a href="#">${ reviewData.memberId }</a></div>
                           <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
                         </div>
@@ -109,30 +102,26 @@
               </ul>
             </div>
 
+			<!-- 최근 본 상품 사이드 바 시작 -->
             <div class="sidebar-box ftco-animate">
               <h3 class="heading">Recent Blog</h3>
-              <div class="block-21 mb-4 d-flex">
-                <a class="blog-img mr-4" style="background-image: url(images/image_1.jpg);"></a>
-                <div class="text">
-                  <h3 class="heading-1"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                  <div class="meta">
-                    <div><a href="#"><span class="icon-calendar"></span> April 09, 2019</a></div>
-                    <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                    <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                  </div>
-                </div>
-              </div>
-              <div class="block-21 mb-4 d-flex">
-                <a class="blog-img mr-4" style="background-image: url(images/image_2.jpg);"></a>
-                <div class="text">
-                  <h3 class="heading-1"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                  <div class="meta">
-                    <div><a href="#"><span class="icon-calendar"></span> April 09, 2019</a></div>
-                    <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                    <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                  </div>
-                </div>
-              </div>
+              
+              <c:forEach var="recentList" items="${ sessionScope.recentList }">
+	              <div class="block-21 mb-4 d-flex">
+	                <a class="blog-img mr-4" style="background-image: url(${recentList.imageUrl});"></a>
+	                <div class="text">
+	                  <h3 class="heading-1"><a href="#"><b>${recentList.teaName}</b></a></h3>
+	                  <h4 class="heading-1"><a href="#">${recentList.teaContent}</a></h4>
+	                  <div class="meta">
+	                    <div><a href="#"><span class="icon-calendar"></span> ${recentList.teaPrice}</a></div>
+	                    <div><a href="#"><span class="icon-person"></span> Admin</a></div>
+	                    <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+	                  </div>
+	                </div>
+	              </div>
+              </c:forEach>
+              
+              <!-- 단건 샘플 시작 -->
               <div class="block-21 mb-4 d-flex">
                 <a class="blog-img mr-4" style="background-image: url(images/image_3.jpg);"></a>
                 <div class="text">
@@ -144,19 +133,16 @@
                   </div>
                 </div>
               </div>
+              <!-- 단건 샘플 끝 -->
             </div>
+            <!-- 최근 본 상품 사이드 바 끝 -->
 
             <div class="sidebar-box ftco-animate">
               <h3 class="heading">Tag Cloud</h3>
               <div class="tagcloud">
-                <a href="#" class="tag-cloud-link">fruits</a>
-                <a href="#" class="tag-cloud-link">tomatoe</a>
-                <a href="#" class="tag-cloud-link">mango</a>
-                <a href="#" class="tag-cloud-link">apple</a>
-                <a href="#" class="tag-cloud-link">carrots</a>
-                <a href="#" class="tag-cloud-link">orange</a>
-                <a href="#" class="tag-cloud-link">pepper</a>
-                <a href="#" class="tag-cloud-link">eggplant</a>
+              	<c:forEach var="tag" items="${ tagCloud }" begin="0" end="8">
+	                <a href="#" class="tag-cloud-link"># ${ tag.reviewHashtagContent }</a>
+              	</c:forEach>
               </div>
             </div>
 

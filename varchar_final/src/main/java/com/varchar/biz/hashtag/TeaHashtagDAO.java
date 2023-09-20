@@ -62,7 +62,7 @@ public class TeaHashtagDAO {
 
 // ----------------------------------------------------------------------------------------------------
 
-// SQL_SELECTALL, SQL_SELECTONE
+//[ selectAll ]
 class TeaHashtagSelectRowMapper implements RowMapper<TeaHashtagVO> {
 
    @Override
@@ -77,7 +77,6 @@ class TeaHashtagSelectRowMapper implements RowMapper<TeaHashtagVO> {
 
 }
 
-//SQL_SELECTALL_SEARCH
 class TeaHashtagSearchRowMapper implements RowMapper<TeaHashtagVO>{
 
    @Override

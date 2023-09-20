@@ -73,7 +73,7 @@ public class FavorDAO {
 
 // -----------------------------------------------------------------------
 
-// SQL_SELECTALL
+//[ selectAll ]
 class FavorSelectAllRowMapper implements RowMapper<FavorVO> { 
 
 	@Override
@@ -91,7 +91,7 @@ class FavorSelectAllRowMapper implements RowMapper<FavorVO> {
 	}
 }
 
-// SQL_SELECTONE
+//[ selectOne ]
 class FavorSelectOneRowMapper implements RowMapper<FavorVO> {
 
 	@Override

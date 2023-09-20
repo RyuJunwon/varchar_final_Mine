@@ -1,7 +1,6 @@
 package com.varchar.view.controller;
 
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class MemberController {
 
 	@RequestMapping(value = "/login.do", method=RequestMethod.GET)
 	public String loginPage() { // 로그인 페이지
-		return "redirect:login.jsp";
+		return "login.jsp";
 	}
 
 	@RequestMapping(value = "/login.do", method=RequestMethod.POST) // 로그인
@@ -54,10 +53,9 @@ public class MemberController {
 
 		if (memberVO != null) {
 			session.setAttribute("sessionMemberId", memberVO.getMemberId());
+			session.setAttribute("sessionMemberName", memberVO.getMemberName());
 			session.setAttribute("sessionMemberPlatform", memberVO.getMemberPlatform());
-			session.setAttribute("sessionMemberGrade", memberVO.getMemberGrade());
 			System.out.println(memberVO);
-			System.out.println("Grade : " + memberVO.getMemberGrade());
 //			if(memberVO.getMemberGrade().equals("ADMIN")) { // 관리자 검사
 //				return "관리자 페이지";
 //			}
@@ -68,7 +66,7 @@ public class MemberController {
 			return "alertFalse.jsp";
 		}
 		
-		return "redirect:main.do";
+		return "main.do";
 	}
 	
 	// ------------------------------------- 로그아웃 페이지 ------------------------------------------
@@ -86,6 +84,7 @@ public class MemberController {
 
 		System.out.println("LogoutController 로그");
 		session.removeAttribute("sessionMemberId");
+		session.removeAttribute("sessionMemberName");
 		session.removeAttribute("sessionMemberPlatform");
 
 		AlertVO sweetAlertVO = new AlertVO("로그아웃", "메인으로 이동합니다.", null, "success", "main.do");
@@ -98,7 +97,7 @@ public class MemberController {
 
 	@RequestMapping(value = "/signup.do", method=RequestMethod.GET)
 	public String signupPage() { // 회원가입 페이지
-		return "redirect:signup.jsp";
+		return "signup.jsp";
 	}
 
 	@RequestMapping(value = "/signup.do", method=RequestMethod.POST)
@@ -118,7 +117,7 @@ public class MemberController {
 			memberVO.setMemberPlatform("varChar");
 		}
 
-		System.out.println(memberVO);	
+		System.out.println(memberVO);
 
 		if (memberService.insert(memberVO)) {
 			AlertVO sweetAlertVO = new AlertVO("회원가입", "회원가입 성공!", null, "success", "main.do");
@@ -185,7 +184,7 @@ public class MemberController {
 
 	@RequestMapping(value = "/updatePw.do", method=RequestMethod.GET)
 	public String updatePwPage() {
-		return "redirect:updatePw.jsp";
+		return "updatePw.jsp";
 	}
 
 	@RequestMapping(value = "/updatePw.do", method=RequestMethod.POST)
@@ -271,7 +270,7 @@ public class MemberController {
 	
 	// ------------------------------------- SNS 로그인  -------------------------------------	
 	@RequestMapping(value = "/snsLogin.do")
-	public String snsLogin(HttpServletRequest request, MemberVO memberVO, Model model, HttpSession session) {
+	public String snsLogin(MemberVO memberVO, Model model, HttpSession session) {
 		System.out.println(memberVO);
 		memberVO.setMemberSearch("아이디 중복검사");
 		if (memberService.selectOne(memberVO) == null) {
@@ -279,6 +278,7 @@ public class MemberController {
 			return "signup.jsp";
 		}
 		session.setAttribute("sessionMemberId", memberVO.getMemberId());
+		session.setAttribute("sessionMemberName", memberVO.getMemberName());
 		session.setAttribute("sessionMemberPlatform", memberVO.getMemberPlatform());
 		return "main.do";
 	}

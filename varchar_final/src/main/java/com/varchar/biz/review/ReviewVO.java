@@ -1,10 +1,11 @@
 package com.varchar.biz.review;
 
+import java.sql.Date;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.varchar.biz.hashtag.ReviewHashtagVO;
+import com.varchar.biz.image.ImageVO;
 
 public class ReviewVO {
 	private int reviewNum;
@@ -12,7 +13,6 @@ public class ReviewVO {
 	private int buySerial;
 	private String reviewContent;
 	private Date reviewInsertTime;
-	private String[] reviewHashtag;
 	
 	// 임시변수
 	private String reviewSearch;
@@ -25,9 +25,13 @@ public class ReviewVO {
 	private int startRnum;
 	private int endRnum;
 	private int teaNum;
+	private String[] reviewHashtag;
+	private String[] reviewImage;
 	private int hashtagNum;
+	private String reviewHashtagContent;
 	
 	List<ReviewHashtagVO> reviewHashtags;
+	List<ImageVO> reviewImages;
 	
 	public ReviewVO() {
 		this(0, "", 0, "");
@@ -40,12 +44,12 @@ public class ReviewVO {
 		this.reviewContent = reviewContent;
 	}
 	
-	public int getHashtagNum() {
-		return hashtagNum;
+	public String getReviewHashtagContent() {
+		return reviewHashtagContent;
 	}
 
-	public void setHashtagNum(int hashtagNum) {
-		this.hashtagNum = hashtagNum;
+	public void setReviewHashtagContent(String reviewHashtagContent) {
+		this.reviewHashtagContent = reviewHashtagContent;
 	}
 
 	public Date getReviewInsertTime() {
@@ -183,16 +187,39 @@ public class ReviewVO {
 	public void setReviewHashtags(List<ReviewHashtagVO> reviewHashtags) {
 		this.reviewHashtags = reviewHashtags;
 	}
+	
+	public String[] getReviewImage() {
+		return reviewImage;
+	}
+
+	public void setReviewImage(String[] reviewImage) {
+		this.reviewImage = reviewImage;
+	}
+	
+	public int getHashtagNum() {
+		return hashtagNum;
+	}
+
+	public void setHashtagNum(int hashtagNum) {
+		this.hashtagNum = hashtagNum;
+	}
+	
+	public List<ImageVO> getReviewImages() {
+		return reviewImages;
+	}
+
+	public void setReviewImages(List<ImageVO> reviewImages) {
+		this.reviewImages = reviewImages;
+	}
 
 	@Override
 	public String toString() {
 		return "ReviewVO [reviewNum=" + reviewNum + ", memberId=" + memberId + ", buySerial=" + buySerial
-				+ ", reviewContent=" + reviewContent + ", reviewInsertTime=" + reviewInsertTime + ", reviewHashtag="
-				+ Arrays.toString(reviewHashtag) + ", reviewSearch=" + reviewSearch + ", searchName=" + searchName
-				+ ", teaName=" + teaName + ", teaContent=" + teaContent + ", imageUrl=" + imageUrl + ", memberName="
-				+ memberName + ", buyCnt=" + buyCnt + ", startRnum=" + startRnum + ", endRnum=" + endRnum + ", teaNum="
-				+ teaNum + ", hashtagNum=" + hashtagNum + ", reviewHashtags=" + reviewHashtags + "]";
+				+ ", reviewContent=" + reviewContent + ", reviewInsertTime=" + reviewInsertTime + ", reviewSearch="
+				+ reviewSearch + ", searchName=" + searchName + ", teaName=" + teaName + ", teaContent=" + teaContent
+				+ ", imageUrl=" + imageUrl + ", memberName=" + memberName + ", buyCnt=" + buyCnt + ", startRnum="
+				+ startRnum + ", endRnum=" + endRnum + ", teaNum=" + teaNum + ", reviewHashtag="
+				+ Arrays.toString(reviewHashtag) + ", reviewImage=" + Arrays.toString(reviewImage) + ", hashtagNum="
+				+ hashtagNum + ", reviewHashtags=" + reviewHashtags + ", reviewImages=" + reviewImages + "]";
 	}
-
-
 }

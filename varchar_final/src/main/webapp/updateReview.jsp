@@ -11,9 +11,14 @@
 <try:favicon />
 <!-- 링크 부분 헤더 -->
 <try:link />
-
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/38.1.0/classic/ckeditor.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<script type="module">
+    import * as LR from "https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.25.0/web/lr-file-uploader-regular.min.js";
+
+    LR.registerBlocks(LR);
+</script>
 <style>
 	/* 에디터 최소 높이 */
 	.ck-editor__editable {
@@ -66,6 +71,37 @@
 	.tagcloud a {
 		font-size: 18px;
 	}
+	.my-config {
+	  --darkmode: 0;
+	  --h-accent: 223;
+	  --s-accent: 100%;
+	  --l-accent: 61%;
+	}
+	lr-file-uploader-minimal {
+		width: 100%;
+	}
+	.cart-list {
+		margin-bottom: 30px;
+	}
+	.edit_align_center_f {
+		flex: 0 0 20%;
+    	max-width: 20%;
+		display: flex;
+		align-items: center;
+	}
+	.product {
+        position: relative;
+    }
+    .icon-cancel {
+        position: absolute;
+        top: 5px; /* 위쪽 여백 조절 */
+        right: 5px; /* 오른쪽 여백 조절 */
+        background-color: transparent;
+        border: none;
+        color: red;
+        font-size: 20px;
+        cursor: pointer;
+    }
 </style>
 </head>
 <body class="goto-here">
@@ -116,8 +152,84 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="row" id="originReviewImagesThumbnail">
+				
+				</div>
+				<hr>
+				<div class="row" id="reviewImagesThumbnail">
+					
+				</div>
 				<div class="row">
-					<input type="hidden" name="buySerial" value="${ reviewData.buySerial }"> <input type="hidden" name="reviewNum" value="${ reviewData.reviewNum }">
+					<input type="hidden" name="buySerial" value="${ reviewData.buySerial }">
+					<input type="hidden" name="reviewNum" value="${ reviewData.reviewNum }">
+					<div id="originReviewImages">
+						<script>					
+							const originReviewImagesContainer = document.getElementById("originReviewImages");
+							const originReviewImagesThumbnailContainer = document.getElementById("originReviewImagesThumbnail");
+							
+							function originImages(url) {
+								const originReviewImage = document.createElement("input");
+								originReviewImage.type = "hidden";
+								originReviewImage.value = url;
+								originReviewImage.setAttribute("name", "reviewImage");
+				        		originReviewImagesContainer.appendChild(originReviewImage);
+				        		
+				        		const originThumbnailDiv = document.createElement('div');
+				        		originThumbnailDiv.className = 'col-md-6 col-lg-3 edit_align_center_f';
+				        		const originProductDiv = document.createElement('div');
+				        		originProductDiv.className = 'product';
+				        		const originImgElement = document.createElement('img');
+				        		originImgElement.className = 'img-fluid';
+				        		originImgElement.src = url;
+				        		originImgElement.alt = 'Colorlib Template';
+				        		const originCancelSpan = document.createElement('span');
+				        		originCancelSpan.className = 'icon-cancel';
+				        		originCancelSpan.addEventListener("click", () => {
+				        			originReviewImagesContainer.removeChild(originReviewImage);
+				        			originReviewImagesThumbnailContainer.removeChild(originThumbnailDiv);
+				        			editMultipleMax();
+				        		});
+				        		const originOverlayDiv = document.createElement('div');
+				        		originOverlayDiv.className = 'overlay';
+	
+				        		originProductDiv.appendChild(originImgElement);
+				        		originProductDiv.appendChild(originCancelSpan);
+				        		originProductDiv.appendChild(originOverlayDiv);
+				        		originThumbnailDiv.appendChild(originProductDiv);
+				        		originReviewImagesThumbnailContainer.appendChild(originThumbnailDiv);
+				        		editMultipleMax();
+							}
+						</script>
+						<c:forEach var="reviewImage" items="${ reviewData.reviewImages }">
+							<script>
+								var url = "${ reviewImage.imageUrl }";
+								originImages(url);
+							</script>
+						</c:forEach>
+					</div>
+					<div id="reviewImages">
+						
+					</div>
+					<lr-config
+					    ctx-name="my-uploader"
+					    pubkey="86c01c87f383d8c2191c"
+					    max-local-file-size-bytes="10000000"
+					    multiple-max="10"
+					    img-only="true"
+					></lr-config>
+					<lr-file-uploader-minimal
+					    css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.25.0/web/lr-file-uploader-minimal.min.css"
+					    ctx-name="my-uploader"
+					    class="my-config"
+					>
+					</lr-file-uploader-minimal>
+					<lr-data-output
+					  ctx-name="my-uploader"
+					  use-console
+					  use-input
+					  use-group
+					  use-event
+					></lr-data-output>
 					<textarea id="editor" name="reviewContent">
 						${ reviewData.reviewContent }
 					</textarea>
@@ -129,6 +241,69 @@
 							console.error(error);
 						});
 					</script>
+					<script>
+			        	const reviewImagesContainer = document.getElementById("reviewImages");
+						const reviewImagesThumbnailContainer = document.getElementById("reviewImagesThumbnail");
+						const dataOutput = document.querySelector('lr-data-output');
+				        
+						let imageCount = 0;
+						
+						window.addEventListener('LR_REMOVE', (event) => {
+							console.log(event.detail);
+							console.log(imageCount);
+							if (imageCount == 1) {
+								reviewImagesContainer.replaceChildren();
+					        	reviewImagesThumbnailContainer.replaceChildren();
+					        	let imageCount = 0;
+							}
+						});
+						
+						window.addEventListener('LR_UPLOAD_FINISH', (event) => {
+							console.log(event.detail);
+							console.log("업로드 완료");
+						});
+						
+						window.addEventListener('lr-data-output', (event) => {
+				        	reviewImagesContainer.replaceChildren();
+				        	reviewImagesThumbnailContainer.replaceChildren();
+				        	for (var i = 0; i < event.detail.data.files.length; i++) {
+					        	console.log(event.detail.data.files[i].cdnUrl);
+					        	
+				        		const reviewImage = document.createElement("input");
+				        		reviewImage.type = "hidden";
+				        		reviewImage.value = event.detail.data.files[i].cdnUrl;
+				        		reviewImage.setAttribute("name", "reviewImage");
+				        		reviewImagesContainer.appendChild(reviewImage);
+				        		
+				        		const thumbnailDiv = document.createElement('div');
+				        		thumbnailDiv.className = 'col-md-6 col-lg-3 edit_align_center_f';
+				        		const productDiv = document.createElement('div');
+				        		productDiv.className = 'product';
+				        		const imgElement = document.createElement('img');
+				        		imgElement.className = 'img-fluid';
+				        		imgElement.src = event.detail.data.files[i].cdnUrl;
+				        		imgElement.alt = 'Colorlib Template';
+				        		const overlayDiv = document.createElement('div');
+				        		overlayDiv.className = 'overlay';
+
+				        		productDiv.appendChild(imgElement);
+				        		productDiv.appendChild(overlayDiv);
+				        		thumbnailDiv.appendChild(productDiv);
+				        		reviewImagesThumbnailContainer.appendChild(thumbnailDiv);
+				        	}
+				        	imageCount = event.detail.data.files.length;
+				        });
+						
+						function editMultipleMax() {
+							const originReviewImagesThumbnail = document.getElementById('originReviewImagesThumbnail');
+							const originThumbnailchildCount = originReviewImagesThumbnail.childElementCount;
+							
+							let maxUpload = 10 - originThumbnailchildCount;
+							$("lr-config").attr("multiple-max", maxUpload);
+							$("lr-config").attr("multiplemax", maxUpload);
+							console.log("maxUpload : " + maxUpload);
+						}
+			        </script>
 					<input type="text" class="form-control" id="hashtags-input" placeholder="해시태그를 입력해주세요.">
 					<input type="hidden" id="reviewHashtag">
 					<div class="tag-widget post-tag-container mb-5 mt-5">
@@ -145,7 +320,7 @@
 			            		}
 			            		if (tag && !hashtags.includes(tag)) {
 			            			const a = document.createElement("a");
-			            			a.innerText = "#" + tag;
+			            			a.innerText = "# " + tag;
 			            			a.classList.add("tag-cloud-link");
 			            			const i = document.createElement("input");
 			            			i.type = "hidden";
@@ -184,11 +359,13 @@
 			            			}
 			            		}
 			            	});
+			            	
+			            	editMultipleMax();
 			            </script>
-							<c:if test="${ reviewData.reviewHashtag ne null }">
-								<c:forEach var="hashtag" items="${ reviewData.reviewHashtag }">
+							<c:if test="${ reviewData.reviewHashtags ne null }">
+								<c:forEach var="reviewHashtag" items="${ reviewData.reviewHashtags }">
 									<script>
-										var tag = "${ hashtag }";
+										var tag = "${ reviewHashtag.reviewHashtagContent }";
 										addHashtag(tag);
 									</script>
 								</c:forEach>

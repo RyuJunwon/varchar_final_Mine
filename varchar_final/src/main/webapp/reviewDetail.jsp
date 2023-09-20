@@ -22,6 +22,12 @@
     		border: 1px solid rgba(0, 0, 0, 0.05) !important;
     		height: 54px !important;
     	}
+    	.edit_align_center_f {
+			flex: 0 0 25%;
+	    	max-width: 25%;
+			display: flex;
+			align-items: center;
+		}
     </style>
   </head>
   <body class="goto-here">
@@ -66,19 +72,44 @@
                   </div>
                 </td>
                 <td class="total">${ reviewData.memberId }</td>
-              </tr><!-- END TR-->
+              </tr>
+              <!-- END TR-->
             </tbody>
           </table>
         </div>
         <div class="row">
           <div class="col-lg-8 ftco-animate">
+	        <div class="row" id="reviewImagesThumbnail">
+	        	<c:forEach var="reviewImage" items="${ reviewData.reviewImages }">
+	        		<div class="col-md-6 col-lg-3 edit_align_center_f">
+	        		<div class="product">
+	        			<a href="${ reviewImage.imageUrl }" class="image-popup">
+		        			<img class="img-fluid" src="${ reviewImage.imageUrl }" alt="Colorlib Template">
+		        			<div class="overlay"></div>
+	        			</a>
+	        		</div>
+	        	</div>
+	        	</c:forEach>
+	        	<!-- sample start -->
+	        	<!-- <div class="col-md-6 col-lg-3 edit_align_center_f">
+	        		<div class="product">
+	        			<a href="https://ucarecdn.com/88c59e41-d50e-464f-afc9-729c4c2ea84c/-/preview/500x500/-/quality/smart/-/format/auto/" class="image-popup">
+		        			<img class="img-fluid" src="https://ucarecdn.com/88c59e41-d50e-464f-afc9-729c4c2ea84c/-/preview/500x500/-/quality/smart/-/format/auto/" alt="Colorlib Template">
+		        			<div class="overlay"></div>
+	        			</a>
+	        		</div>
+	        	</div> -->
+	        	<!-- sample end -->
+	        </div>
           	<hr>
+          	<div class="about-author d-flex p-4 bg-light">              
 				${ reviewData.reviewContent }
+            </div>
 			<hr>
             <div class="tag-widget post-tag-container mb-5 mt-5">
               <div class="tagcloud">
               	<c:forEach var="reviewHashtag" items="${ reviewData.reviewHashtags }">
-              		<a href="reviewListPage.do" class="tag-cloud-link"># ${ reviewHashtag.reviewHashtagContent }</a>
+              		<a href="reviewListPage.do?searchName=ALL" class="tag-cloud-link"># ${ reviewHashtag.reviewHashtagContent }</a>
               	</c:forEach>
               </div>
             </div>
@@ -89,15 +120,6 @@
 		            <input type="submit" class="btn btn-primary py-3 px-4" value="후기삭제" formaction="deleteReviewPage.do">
 	            </form>
 	        </c:if>
-            <div class="about-author d-flex p-4 bg-light">
-              <div class="bio align-self-md-center mr-4">
-                <img src="images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
-              </div>
-              <div class="desc align-self-md-center">
-                <h3>${ reviewData.memberId }</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit cupiditate numquam!</p>
-              </div>
-            </div>
           </div> <!-- .col-md-8 -->
           <div class="col-lg-4 sidebar ftco-animate">
             <div class="sidebar-box">
@@ -109,7 +131,7 @@
               </form>
             </div>
             <div class="sidebar-box ftco-animate">
-            	<h3 class="heading">Categories</h3>
+            <h3 class="heading">Categories</h3>
               <ul class="categories">
                 <li><a href="#">Vegetables <span>(12)</span></a></li>
                 <li><a href="#">Fruits <span>(22)</span></a></li>

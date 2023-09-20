@@ -95,7 +95,7 @@ public class BuyDetailDAO {
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//SQL_SELECTALL_CARTRETRY
+//다시 담기 [ selectAll ]
 class BuyDetailCartRetryRowMapper implements RowMapper<BuyDetailVO> { 
 
 	@Override
@@ -108,7 +108,7 @@ class BuyDetailCartRetryRowMapper implements RowMapper<BuyDetailVO> {
 	} 
 }
 
-// SQL_SELECTALL
+//[ selectAll ]
 class BuyDetailRowMapper implements RowMapper<BuyDetailVO> {
 
 	@Override
@@ -127,7 +127,7 @@ class BuyDetailRowMapper implements RowMapper<BuyDetailVO> {
 	}
 }
 
-// SQL_SELECTONE_BUYNUM
+//주문 번호 [ selectOne ]
 class BuyDetailBuyNumRowMapper implements RowMapper<BuyDetailVO> { 
 
 	@Override
@@ -138,7 +138,7 @@ class BuyDetailBuyNumRowMapper implements RowMapper<BuyDetailVO> {
 	}
 }
 
-//SQL_SELECTONE
+//[ selectOne ]
 class BuyDetailSelectOneRowMapper implements RowMapper<BuyDetailVO> { 
 
 	@Override
