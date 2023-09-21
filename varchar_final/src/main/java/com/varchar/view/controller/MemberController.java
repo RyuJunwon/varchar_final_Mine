@@ -48,13 +48,14 @@ public class MemberController {
 		System.out.println("사용된 salt : " + salt);
 		
 		memberVO.setMemberSearch("로그인");
-		memberVO = memberService.selectOne(memberVO);
+		memberVO = memberService.selectOne(memberVO); 
 		
 
 		if (memberVO != null) {
 			session.setAttribute("sessionMemberId", memberVO.getMemberId());
 			session.setAttribute("sessionMemberName", memberVO.getMemberName());
 			session.setAttribute("sessionMemberPlatform", memberVO.getMemberPlatform());
+			session.setAttribute("sessionMemberGrade", memberVO.getMemberGrade());
 			System.out.println(memberVO);
 //			if(memberVO.getMemberGrade().equals("ADMIN")) { // 관리자 검사
 //				return "관리자 페이지";
