@@ -27,7 +27,7 @@ public class ReviewVO {
 	private int teaNum;
 	private String[] reviewHashtag;
 	private String[] reviewImage;
-	private int hashtagNum;
+	private int reviewHashtagNum;
 	private String reviewHashtagContent;
 	
 	List<ReviewHashtagVO> reviewHashtags;
@@ -44,14 +44,6 @@ public class ReviewVO {
 		this.reviewContent = reviewContent;
 	}
 	
-	public String getReviewHashtagContent() {
-		return reviewHashtagContent;
-	}
-
-	public void setReviewHashtagContent(String reviewHashtagContent) {
-		this.reviewHashtagContent = reviewHashtagContent;
-	}
-
 	public Date getReviewInsertTime() {
 		return reviewInsertTime;
 	}
@@ -195,15 +187,23 @@ public class ReviewVO {
 	public void setReviewImage(String[] reviewImage) {
 		this.reviewImage = reviewImage;
 	}
-	
-	public int getHashtagNum() {
-		return hashtagNum;
+
+	public int getReviewHashtagNum() {
+		return reviewHashtagNum;
 	}
 
-	public void setHashtagNum(int hashtagNum) {
-		this.hashtagNum = hashtagNum;
+	public void setReviewHashtagNum(int reviewHashtagNum) {
+		this.reviewHashtagNum = reviewHashtagNum;
 	}
-	
+
+	public String getReviewHashtagContent() {
+		return reviewHashtagContent;
+	}
+
+	public void setReviewHashtagContent(String reviewHashtagContent) {
+		this.reviewHashtagContent = reviewHashtagContent;
+	}
+
 	public List<ImageVO> getReviewImages() {
 		return reviewImages;
 	}
@@ -219,7 +219,8 @@ public class ReviewVO {
 				+ reviewSearch + ", searchName=" + searchName + ", teaName=" + teaName + ", teaContent=" + teaContent
 				+ ", imageUrl=" + imageUrl + ", memberName=" + memberName + ", buyCnt=" + buyCnt + ", startRnum="
 				+ startRnum + ", endRnum=" + endRnum + ", teaNum=" + teaNum + ", reviewHashtag="
-				+ Arrays.toString(reviewHashtag) + ", reviewImage=" + Arrays.toString(reviewImage) + ", hashtagNum="
-				+ hashtagNum + ", reviewHashtags=" + reviewHashtags + ", reviewImages=" + reviewImages + "]";
+				+ Arrays.toString(reviewHashtag) + ", reviewImage=" + Arrays.toString(reviewImage)
+				+ ", reviewHashtagNum=" + reviewHashtagNum + ", reviewHashtagContent=" + reviewHashtagContent
+				+ ", reviewHashtags=" + reviewHashtags + ", reviewImages=" + reviewImages + "]";
 	}
 }

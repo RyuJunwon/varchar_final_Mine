@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="Ad/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="Ad/images/favicon.png" />
-<style type="text/css">
+  <style type="text/css">
 
   a {
   	text-decoration: none;
@@ -471,7 +471,7 @@ $('#btnSave').on("click", function(){
         type: 'POST',
         data: hashTags,
         success: function(fresult){
-            //console.log('favorResult [' + favorResult + ']');
+        	alert('해시태그 저장 완료!');
           	
         },
         error: function(error){

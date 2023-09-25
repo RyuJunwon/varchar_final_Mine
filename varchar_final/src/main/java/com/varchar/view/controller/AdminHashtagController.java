@@ -1,5 +1,6 @@
 package com.varchar.view.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.varchar.biz.category.CategoryService;
 import com.varchar.biz.category.CategoryVO;
@@ -100,8 +103,8 @@ public class AdminHashtagController {
 		System.out.println("로그: hashTagForm 제출");
 		System.out.println("로그 hashTags: "+ hashTags);
 
-		int teaNum = Integer.parseInt(String.valueOf(hashTags.get("itemNum")));
-		hashtagDetailVO.setItemNum(teaNum);
+		int reviewNum = Integer.parseInt(String.valueOf(hashTags.get("itemNum")));
+		hashtagDetailVO.setItemNum(reviewNum);
 		hashtagDetailService.delete(hashtagDetailVO); // 트리거 추가시 없앨 예정
 		
 		for(int i = 1; i<hashTags.size(); i++) {
