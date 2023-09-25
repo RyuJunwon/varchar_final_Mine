@@ -26,6 +26,8 @@ public class TeaHashtagDAO {
    static final private String SQL_INSERT = "INSERT INTO TEA_HASHTAG(TEA_HASHTAG_NUM, TEA_HASHTAG_CONTENT) "
          + "VALUES ((SELECT NVL(MAX(TEA_HASHTAG_NUM), 1000)+1 FROM TEA_HASHTAG), ?)";
 
+   static final private String SQL_DELETE = "DELETE FROM TEA_HASHTAG WHERE TEA_HASHTAG_NUM = ?";
+   
 
    public List<TeaHashtagVO> selectAll(TeaHashtagVO teaHashtagVO) {
 	   Object[] args = { teaHashtagVO.getItemNum() };
@@ -54,7 +56,12 @@ public class TeaHashtagDAO {
    }
 
    public boolean delete(TeaHashtagVO teaHashtagVO) {
-      return false;
+      int result = jdbcTemplate.update(SQL_DELETE, teaHashtagVO.getTeaHashtagNum());
+      
+      if(result <= 0) {
+    	  return false;
+      }
+      return true;
    }
 
 
