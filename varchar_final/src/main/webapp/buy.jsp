@@ -123,7 +123,7 @@
 				<div class="col-md-6">
 	                <div class="form-group">
                 		<label for="lastname">연락처</label>
-	                  	<input type="text" id="memberPhone" class="form-control" name="memberPhone" placeholder="하이픈(-), 공백없이 입력하세요.">
+	                  	<input type="text" id="memberPhone" value="${ memberVO.memberPhone }" class="form-control" name="memberPhone" placeholder="하이픈(-), 공백없이 입력하세요.">
 	                </div>
                 </div>
 				<div class="col-md-6">
