@@ -32,8 +32,6 @@ public class ReviewHashtagDAO {
 	
 	static final private String SQL_INSERT = "INSERT INTO REVIEW_HASHTAG(REVIEW_HASHTAG_NUM, REVIEW_HASHTAG_CONTENT) "
 											+ "VALUES ((SELECT NVL(MAX(REVIEW_HASHTAG_NUM), 2000) + 1 FROM REVIEW_HASHTAG), ?)";
-	
-	static final private String SQL_DELETE  = "DELETE FROM REVIEW_HASHTAG WHERE REVIEW_HASHTAG_NUM = ?";
 
 	public List<ReviewHashtagVO> selectAll(ReviewHashtagVO reviewHashtagVO) {
 		
@@ -69,12 +67,7 @@ public class ReviewHashtagDAO {
 	}
 
 	public boolean delete(ReviewHashtagVO reviewHashtagVO) {
-		int result = jdbcTemplate.update(SQL_DELETE, reviewHashtagVO.getReviewHashtagNum());
-		
-		if(result <= 0) {
-			return false;
-		}
-		return true;
+		return false;
 	}
 
 
