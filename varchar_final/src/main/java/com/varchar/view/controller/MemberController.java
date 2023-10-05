@@ -273,12 +273,13 @@ public class MemberController {
 	// ------------------------------------- SNS 로그인  -------------------------------------	
 	@RequestMapping(value = "/snsLogin.do")
 	public String snsLogin(MemberVO memberVO, Model model, HttpSession session) {
-		System.out.println(memberVO);
+		
 		memberVO.setMemberSearch("아이디 중복검사");
 		if (memberService.selectOne(memberVO) == null) {
 			model.addAttribute("memberData", memberVO);
 			return "signup.jsp";
 		}
+			
 		memberVO = memberService.selectOne(memberVO);
 		
 		session.setAttribute("sessionMemberId", memberVO.getMemberId());

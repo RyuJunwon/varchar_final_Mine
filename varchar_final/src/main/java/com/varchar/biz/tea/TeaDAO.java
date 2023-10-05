@@ -94,7 +94,7 @@ public class TeaDAO {
 		
 		static final private String SQL_UPDATE_TEA = "UPDATE TEA SET TEA_STATUS = ? WHERE TEA_NUM = ?";
 		
-		static final private String SQL_UPDATE_ADMIN = "UPDATE TEA SET TEA_PRICE = ?, TEA_CNT = ?, TEA_NAME = ?, TEA_CONTENT = ?, TEA_STATUS= ?, CATEGORY_NUM= ? WHERE TEA_NUM = ? ";
+		static final private String SQL_UPDATE_ADMIN = "UPDATE TEA SET TEA_PRICE = ?, TEA_CNT = ?, TEA_NAME = ?, TEA_CONTENT = ?, TEA_STATUS= ?, CATEGORY_NUM = ? WHERE TEA_NUM = ? ";
 		
 		static final private String SQL_UPDATE_CATEGORY = "UPDATE TEA SET CATEGORY_NUM = 0 WHERE CATEGORY_NUM = ? ";
 		
@@ -104,7 +104,6 @@ public class TeaDAO {
 													+ "VALUES((SELECT NVL(MAX(TEA_NUM),1000)+1 FROM TEA), ?, ?, ?, ?, ?)";
 			
 		static final private String SQL_DELETE = "DELETE FROM TEA WHERE TEA_NUM = ? ";
-
 
 	public List<TeaVO> selectAll(TeaVO teaVO) {
 

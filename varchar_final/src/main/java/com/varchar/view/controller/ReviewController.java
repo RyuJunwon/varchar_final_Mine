@@ -168,31 +168,36 @@ public class ReviewController {
 		reviewHashtagVO.setItemNum(reviewNum); // reviewHashtagVO에 리뷰번호 set 
 
 		imageVO.setTeaReviewNum(reviewNum);
-		for (int i = 0; i < reviewVO.getReviewImage().length; i++) {
-			String imageUrl = reviewVO.getReviewImage()[i];
-			System.out.println(imageUrl);
-			imageVO.setImageUrl(imageUrl);
-			imageVO.setImageDivision(i + 1);
-			imageService.insert(imageVO);
+
+		if(reviewVO.getReviewImage() != null) {
+			for (int i = 0; i < reviewVO.getReviewImage().length; i++) {
+				String imageUrl = reviewVO.getReviewImage()[i];
+				System.out.println(imageUrl);
+				imageVO.setImageUrl(imageUrl);
+				imageVO.setImageDivision(i + 1);
+				imageService.insert(imageVO);
+			}
 		}
 
-		for (int i = 0; i < reviewVO.getReviewHashtag().length; i++) { // 리뷰해시태그 길이만큼 for문 돌림
-			String content = reviewVO.getReviewHashtag()[i]; // content 변수에 해시태그값 저장
-			reviewHashtagVO.setReviewHashtagContent(content); // reviewHashtagVO에 content 값 저장
+		if(reviewVO.getReviewHashtag() != null) {
+			for (int i = 0; i < reviewVO.getReviewHashtag().length; i++) { // 리뷰해시태그 길이만큼 for문 돌림
+				String content = reviewVO.getReviewHashtag()[i]; // content 변수에 해시태그값 저장
+				reviewHashtagVO.setReviewHashtagContent(content); // reviewHashtagVO에 content 값 저장
 
-			System.out.println("로그: 해시태그[" + i + "]: " + content);
+				System.out.println("로그: 해시태그[" + i + "]: " + content);
 
-			// 새로운 해시태그 값이면 추가
-			if (reviewHashtagService.selectOne(reviewHashtagVO) == null) {
-				reviewHashtagService.insert(reviewHashtagVO);
+				// 새로운 해시태그 값이면 추가
+				if (reviewHashtagService.selectOne(reviewHashtagVO) == null) {
+					reviewHashtagService.insert(reviewHashtagVO);
+				}
+
+				reviewHashtagVO = reviewHashtagService.selectOne(reviewHashtagVO);
+
+				// 해시태그 상세 추가
+				hashtagDetailVO.setItemNum(reviewNum);
+				hashtagDetailVO.setHashtagNum(reviewHashtagVO.getReviewHashtagNum());
+				hashtagDetailService.insert(hashtagDetailVO);
 			}
-
-			reviewHashtagVO = reviewHashtagService.selectOne(reviewHashtagVO);
-
-			// 해시태그 상세 추가
-			hashtagDetailVO.setItemNum(reviewNum);
-			hashtagDetailVO.setHashtagNum(reviewHashtagVO.getReviewHashtagNum());
-			hashtagDetailService.insert(hashtagDetailVO);
 		}
 
 		return "alertTrue.jsp";
@@ -245,7 +250,7 @@ public class ReviewController {
 		if(imageService.delete(imageVO)) {
 			System.out.println("imageService.delete(imageVO) true 진입");
 		}
-		
+
 		if(reviewVO.getReviewImage() != null) {
 			for (int i = 0; i < reviewVO.getReviewImage().length; i++) {
 				String imageUrl = reviewVO.getReviewImage()[i];
