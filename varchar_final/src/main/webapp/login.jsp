@@ -181,8 +181,7 @@
 		              <ul>
 		                <li><span class="btn_span_kakao" id="edit_span_kakao"></span></li>
 		                <li><span class="btn_span_naver" id="edit_span_naver"></span></li>
-		                <li><span class="btn_span_google" id="edit_span_google" 
-		                			data-client_id="831557176408-2a23dinpartetqap2lipe1c046pt24co.apps.googleusercontent.com"></span></li>
+		                <li><span class="btn_span_google" id="edit_span_google" data-client_id="831557176408-2a23dinpartetqap2lipe1c046pt24co.apps.googleusercontent.com"></span></li>
 		              </ul>
 		      		</div>
 		      	</div>
@@ -198,12 +197,8 @@
 		      </div>
 		      <!-- SNS 로그인 끝 -->
 			  <!-- 구글 로그인 버튼 -->
-			  
-			  
 			  <div class="edit_hidden" id="g_id_onload" data-client_id="831557176408-2a23dinpartetqap2lipe1c046pt24co.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
 			  <div class="g_id_signin edit_hidden" data-type="standard" data-size="large" data-text="signin_with" data-shape="rectangular" data-width=300 data-radius=15px></div>
-		      
-		      
 		      
 		      <!-- kakao API START -->
 		      <script type="text/javascript">
@@ -252,14 +247,14 @@
 			<!-- kakao API END -->
 			
 			<!-- google API START -->
-			
-			
 			<script>
 				$('.btn_span_google').click(function(){
 					$('.nsm7Bb-HzV7m-LgbsSe-BPrWId').trigger('click');
 				});
 				
 				function handleCredentialResponse(response) {
+					// decodeJwtResponse() is a custom function defined by you
+					// to decode the credential response.
 					const responsePayload = parseJwt(response.credential);
 			
 					$('#status').append(responsePayload.name);
@@ -273,6 +268,7 @@
 					params.append('memberName', responsePayload.name);
 					params.append('memberPlatform', 'google');
 			
+					// 새로운 URL로 이동합니다. 여기에 목적지 URL을 입력하세요.
 					const destinationURL = 'snsLogin.do?' + params.toString();
 					window.location.href = destinationURL;
 			
@@ -289,8 +285,6 @@
 					return JSON.parse(jsonPayload);
 				};
 			</script>
-			
-			
 			<!-- google API END -->
 	  		 <div class="edit_hidden" id="naver_id_login"></div>
 	  		     
@@ -341,25 +335,6 @@
 		});
 	</script>
 	
-	<script type="text/javascript">
-		// 비밀번호 유효성 검사
-    	function checkPw() {
- 	  		var nPw = document.getElementById('newPw').value;
-       		var cnPw = document.getElementById('checkNewPw').value;
-                		
-       		if(nPw.length < 8){
-   				alert('비밀번호 설정은 8글자 이상부터 가능합니다.');
-                			
-       			return false;
-       		}
-       		else if( nPw != cnPw ){
-                alert("새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-                			
-                return false;
-            }
-       		return true;
-      	}
-    </script>
     <script type="text/javascript">
     	$('.btn_span_naver').click(function(){
     		console.log('네이버 클릭 확인');

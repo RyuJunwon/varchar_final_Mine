@@ -123,7 +123,14 @@ public class ReviewController {
 
 			model.addAttribute("reviewData", reviewVO);
 		}
+		
+		// 태그 클라우드에 들어갈 해시태그 랭크
+		reviewHashtagVO.setHashTagSearchCondition("RANK");
+		List<ReviewHashtagVO> tagCloud = reviewHashtagService.selectAll(reviewHashtagVO);
+
+		model.addAttribute("tagCloud", tagCloud);
 		System.out.println(reviewVO);
+		System.out.println(tagCloud);
 		return "reviewDetail.jsp";
 	}
 
@@ -240,27 +247,22 @@ public class ReviewController {
 				hashtagDetailVO.setHashtagNum(reviewHashtagVO.getReviewHashtagNum());
 				hashtagDetailService.insert(hashtagDetailVO);
 			}
-			// 후기수정페이지에 해시태그 기능 나오면 확인해야함
-			reviewHashtagVO.setHashTagSearchCondition("후기번호검색");
-			List<ReviewHashtagVO> reviewHashtags = reviewHashtagService.selectAll(reviewHashtagVO);
-			model.addAttribute("reviewHashtags", reviewHashtags);
 		}
 
-		///** 리뷰 이미지 업데이트 ---> 유효성 추가 필요 */
-		if(imageService.delete(imageVO)) {
+		// 리뷰 이미지 업데이트
+		if(imageService.delete(imageVO)) { // 리뷰 이미지 전체 삭제
 			System.out.println("imageService.delete(imageVO) true 진입");
 		}
-
-		if(reviewVO.getReviewImage() != null) {
-			for (int i = 0; i < reviewVO.getReviewImage().length; i++) {
+		
+		if(reviewVO.getReviewImage() != null) { // 받아온 이미지가 있는 경우
+			for (int i = 0; i < reviewVO.getReviewImage().length; i++) { // 이미지 길이만큼 for문
 				String imageUrl = reviewVO.getReviewImage()[i];
 				System.out.println(imageUrl);
-				imageVO.setImageUrl(imageUrl);
-				imageVO.setImageDivision(i + 1);
+				imageVO.setImageUrl(imageUrl); // 배열에서 꺼낸 이미지 set
+				imageVO.setImageDivision(i + 1); // 이미지 번호 증가
 				imageService.insert(imageVO);
 			}
 		}
-
 
 		model.addAttribute("reviewData", reviewService.selectOne(reviewVO));
 		return "reviewDetailPage.do";
@@ -271,7 +273,7 @@ public class ReviewController {
 		//** 해당 후기 없을시 ---> 유효성 추가 필요 */
 		reviewVO.setReviewSearch("리뷰상세");
 		reviewVO = reviewService.selectOne(reviewVO);
-		System.out.println("로그: UrpAction: " + reviewVO); // 로그 줄임말 실화?
+		System.out.println("로그: UrpAction: " + reviewVO);
 
 		if (reviewVO != null) {
 			// 리뷰 해시태그 selectAll

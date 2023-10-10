@@ -1,4 +1,4 @@
-	/*!
+/*!
  * Bootstrap v4.2.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
@@ -9051,7 +9051,9 @@ h1, h2, h3, h4, h5,
   padding-left: 15px;
   padding-right: 15px;
   background: transparent !important;
-  color: rgba(0, 0, 0, 0.4) !important;
+  /* color: rgba(0, 0, 0, 0.4) !important; */
+  /* edit */
+  color: rgba(0, 0, 0, 1) !important;
   font-size: 14px;
   border-radius: 0px;
   -webkit-box-shadow: none !important;

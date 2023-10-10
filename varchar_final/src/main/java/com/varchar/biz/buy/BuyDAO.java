@@ -35,7 +35,7 @@ public class BuyDAO {
 			+ "    JOIN BUY_DETAIL bd2 ON b2.BUY_NUM = bd2.BUY_NUM "
 			+ "    JOIN TEA t2 ON bd2.TEA_NUM = t2.TEA_NUM "
 			+ "    WHERE MEMBER_ID = ? "
-			+ "    GROUP BY b2.BUY_NUM "	
+			+ "    GROUP BY b2.BUY_NUM "
 			+ ") min_tea ON b.BUY_NUM = min_tea.BUY_NUM "
 			+ "WHERE MEMBER_ID = ? AND i.IMAGE_DIVISION = 1 AND t.TEA_NUM = min_tea.MIN_TEA_NUM "
 			+ "GROUP BY b.BUY_NUM, t.TEA_NUM, t.TEA_NAME, i.IMAGE_URL "

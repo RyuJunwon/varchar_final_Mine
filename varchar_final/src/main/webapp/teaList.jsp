@@ -34,7 +34,9 @@
 	}
 	
 	.tagcloud a {
-		font-size: 13px;
+		background-color: #4A55A2 !important;
+	    backdrop-filter: blur(10px);
+	    color: #FFFFFF;
 	}
 	</style>
 	<script type="text/javascript">
@@ -66,7 +68,7 @@
 					<p class="breadcrumbs">
 						<span class="mr-2"><a href="main.do">Tea</a></span> <span>Products</span>
 					</p>
-					<h1 class="mb-0 bread">TeaLists</h1>
+					<h1 class="mb-0 bread">상품 목록</h1>
 				</div>
 			</div>
 		</div>
@@ -87,11 +89,11 @@
 				<div class="col-md-10 mb-5 text-center">
 					<ul class="product-category">
 						<li><a href="teaListPage.do">전체</a></li>
-						<li><a href="teaListPage.do?categoryName=녹차">녹차</a></li>
-						<li><a href="teaListPage.do?categoryName=홍차">홍차</a></li>
-						<li><a href="teaListPage.do?categoryName=루이보스">루이보스</a></li>
-						<li><a href="teaListPage.do?categoryName=우롱차">우롱차</a></li>
-						<li><a href="teaListPage.do?categoryName=허브차">허브차</a></li>
+						<c:forEach var="category" items="${ categorys }">
+							<c:if test="${ category.categoryName != '해당없음'  }">
+			                	<li><a href="teaListPage.do?categoryName=${category.categoryName}">${category.categoryName}</a></li>
+							</c:if>
+		                </c:forEach>
 					</ul>
 				</div>
 			</div>
@@ -108,7 +110,7 @@
 							<!-- 반복 시작점 -->
 							<div class="product edit_product_${ teaData.teaNum }">
 								<a href="teaDetailPage.do?teaNum=${ teaData.teaNum }&searchName=DETAIL" class="img-prod"><img class="img-fluid" src="${ teaData.imageUrl }" alt="Colorlib Template">
-									<div class="tagcloud ftco-animate edit_hashtag edit_hashtag_${ teaData.teaNum }" style="position: absolute; top: 25%; left: 0; right: 0; bottom: 0; text-align: center; vertical-align: middle;">
+									<div class="tagcloud ftco-animate edit_hashtag edit_hashtag_${ teaData.teaNum }" style="position: absolute; top: 15%; left: 0; right: 0; bottom: 0; text-align: center; vertical-align: middle;">
 										<c:forEach var="teaHashtag" items="${ teaData.teaHashtags }">
 											<br>
 											<a href="teaListPage.do?teaHashtagContent=${ teaHashtag.teaHashtagContent }" class="tag-cloud-link" style="background: #ffffff"># ${ teaHashtag.teaHashtagContent }</a>
@@ -123,7 +125,12 @@
 									<div class="d-flex">
 										<div class="pricing">
 											<p class="price">
-												<span>${ teaData.teaPrice } ₩</span>
+												<c:if test="${ teaData.teaStatus eq 0 }">
+													<span>${ teaData.teaPrice } ₩</span>
+												</c:if>
+												<c:if test="${ teaData.teaStatus eq 1 }">
+													<span>판매 중단</span>
+												</c:if>
 											</p>
 										</div>
 									</div>
@@ -246,20 +253,40 @@
 					<div class="block-27">
 						<ul>
 							<c:if test="${ page.startPage > 1 }">
-								<li><a href="teaListPage.do?categoryName=${ page.categoryName }&teaSearchWord=${ page.teaSearchWord }&teaHashtagContent=${ page.teaHashtagContent }&page=${ page.startPage - 1 }"> &lt; </a></li>
+								<li>
+									<a href="teaListPage.do?categoryName=${ page.categoryName }&teaSearchWord=${ page.teaSearchWord }
+															&teaHashtagContent=${ page.teaHashtagContent }&page=${ page.startPage - 1 }">
+										&lt;
+									</a>
+								</li>
 							</c:if>
 							<c:forEach begin="${ page.startPage }" end="${ page.endPage }" var="p">
 								<c:choose>
 									<c:when test="${ page.currentPage eq p }">
-										<li class="active"><a href="teaListPage.do?categoryName=${ page.categoryName }&teaSearchWord=${ page.teaSearchWord }&teaHashtagContent=${ page.teaHashtagContent }&page=${ p }">${ p }</a></li>
+										<li class="active">
+											<a href="teaListPage.do?categoryName=${ page.categoryName }&teaSearchWord=${ page.teaSearchWord }
+																	&teaHashtagContent=${ page.teaHashtagContent }&page=${ p }">
+												${ p }
+											</a>
+										</li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="teaListPage.do?categoryName=${ page.categoryName }&teaSearchWord=${ page.teaSearchWord }&teaHashtagContent=${ page.teaHashtagContent }&page=${ p }">${ p }</a></li>
+										<li>
+											<a href="teaListPage.do?categoryName=${ page.categoryName }&teaSearchWord=${ page.teaSearchWord }
+																	&teaHashtagContent=${ page.teaHashtagContent }&page=${ p }">
+												${ p }
+											</a>
+										</li>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
 							<c:if test="${ page.endPage < page.totalPageCnt }">
-								<li><a href="teaListPage.do?categoryName=${ page.categoryName }&teaSearchWord=${ page.teaSearchWord }&teaHashtagContent=${ page.teaHashtagContent }&page=${ page.endPage + 1 }"> &gt; </a></li>
+								<li>
+									<a href="teaListPage.do?categoryName=${ page.categoryName }&teaSearchWord=${ page.teaSearchWord }
+															&teaHashtagContent=${ page.teaHashtagContent }&page=${ page.endPage + 1 }">
+										&gt;
+									</a>
+								</li>
 							</c:if>
 						</ul>
 					</div>

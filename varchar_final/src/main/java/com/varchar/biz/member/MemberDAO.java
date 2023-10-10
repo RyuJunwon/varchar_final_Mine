@@ -57,8 +57,10 @@ public class MemberDAO {
 	}
 
 	public MemberVO selectOne(MemberVO memberVO){
+		// System.out.println("MemberDAO 로그 SelectOne() 메소드 호출");
 		try {
 			if(memberVO.getMemberSearch().equals("로그인")) {
+				// System.out.println("MemberDAO 로그 SelectOne() MemberSearch: 로그인 메소드 호출");
 				Object[] args = { memberVO.getMemberId(), memberVO.getMemberPw() };
 				return jdbcTemplate.queryForObject(SQL_SELECTONE_LOGIN, args, new MemberSaltRowMapper());
 			}
@@ -70,7 +72,7 @@ public class MemberDAO {
 				Object[] args = { memberVO.getMemberEmail() };
 				return jdbcTemplate.queryForObject(SQL_SELECTONE_CKECKEMAIL, args, new MemberSaltRowMapper());
 			} 
-			else { // MemberSearch : 아이디 중복검사
+			else { // 아이디 확인
 				Object[] args = { memberVO.getMemberId() };
 				return jdbcTemplate.queryForObject(SQL_SELECTONE, args, new MemberSaltRowMapper());
 			}
