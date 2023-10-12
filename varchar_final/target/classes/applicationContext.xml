@@ -9,12 +9,14 @@
 
 	<context:component-scan base-package="com.varchar.biz" />
 	
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	
 	<!-- DataSource 객체 생성 -->
 	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
-		<property name="username" value="RYU"></property>
-		<property name="password" value="1234"></property>
+		<property name="driverClassName" value="${jdbc.driverClassName}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
 	</bean>
 
 	<!-- JdbcTemplate에 의존 주입할 객체 생성 -->
@@ -59,7 +61,7 @@
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="-1" />
 	</bean>
-<!--  
+
 	<bean id="exceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
@@ -68,9 +70,9 @@
 				<prop key="java.lang.NullPointerException">error/error500.jsp</prop>
 			</props>
 		</property>
-		<property name="defaultErrorView" value="error/error404.jsp" />
+		<property name="defaultErrorView" value="error/error500.jsp" />
 	</bean>
--->
+
 	<aop:aspectj-autoproxy />
 	<!-- 
 	<bean id="logAdvice" class="com.varchar.biz.common.LogAdvice" />
